@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jan Jongerden Software</title>
+  <script type="text/javascript" src="js/ball_game.js" ></script>
+  <script type="text/javascript" src="js/tools.js" ></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="grid" class="grid"></div>
+  <script>
+    const headerLinks = ["home", "info", "contact"]
+
+    const pages = {
+      "home": {
+        "texts_nl": [
+          "hallo,",
+          " ",
+          "Ik ben Jan en werk als zzp-er.",
+          "Ik los problemen op als backend/fullstack ontwikkelaar, meestal in Java of Kotlin.",
+          "Als je hulp nodig hebt bij een automatiseringsproject, stuur me dan een bericht via de {?page=contact&lang=nl|contactpagina}.",
+        ],
+        "texts_en": [
+          "hi,",
+          " ",
+          "I am Jan and work as a freelancer.",
+          "I solve business problems as a backend/fullstack developer, mostly in Java or Kotlin.",
+          "If you can use some help with your project, please contact me {?page=contact&lang=en|here}.",
+        ],
+      },
+      "info": {
+        "texts_nl": [
+          "Jan Jongerden Software",
+          "KvK nr: 94089922",
+          " ",
+          "{https://linkedin.com/in/janjongerden/|-LinkedIn profiel}",
+          "{https://github.com/janjongerden|-GitHub pagina}",
+          "{https://janjongerden.nl/blog/|-persoonlijke weblog}",
+        ],
+        "texts_en": [
+          "Jan Jongerden Software",
+          "CoC no. 94089922",
+          " ",
+          "{https://linkedin.com/in/janjongerden/|-LinkedIn profile}",
+          "{https://github.com/janjongerden|-GitHub page}",
+          "{https://janjongerden.nl/blog/|-personal weblog}",
+        ],
+      },
+      "contact": {
+        "texts_nl": [
+          "Je kan me bereiken via {https://linkedin.com/in/janjongerden/|LinkedIn}.",
+        ],
+        "texts_en": [
+          "You can contact me on {https://linkedin.com/in/janjongerden/|LinkedIn}.",
+        ],
+      },
+    };
+
+    const gridContainer = document.getElementById("grid");
+    const squareSize = 25;
+    const maxRow = Math.floor(window.innerHeight / squareSize);
+    const maxCol = Math.floor(window.innerWidth / squareSize);
+
+    // Generate the grid
+    for (let row = 0; row < maxRow; row++) {
+      for (let col = 0; col < maxCol; col++) {
+        const square = document.createElement("div");
+        square.className = "square";
+        square.id = `square-${row}-${col}`;
+        gridContainer.appendChild(square);
+      }
+    }
+
+    const pageParams = window.location.search;
+
+    const urlParameters = new URLSearchParams(pageParams);
+    const activePage = urlParameters.get('page') ?? 'home';
+    const activeLang = urlParameters.get('lang') ?? 'nl';
+
+    drawPage(activePage, activeLang);
+
+  </script>
+</body>
+</html>
