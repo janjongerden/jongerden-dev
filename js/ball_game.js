@@ -24,6 +24,7 @@ function initializeGame() {
     document.body.appendChild(bar);
 
     const ctx = bar.getContext("2d");
+    ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.roundRect(0, 0, barWidth, 25, 10);
     ctx.fillStyle = "rgba(255, 255, 0, .5)";
