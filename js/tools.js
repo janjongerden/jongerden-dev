@@ -95,13 +95,14 @@ function drawPage(pageName, language) {
         word(0, offset, link, `?page=${link}&lang=${activeLang}`);
         offset += link.length + 2;
     }
-    if (activeLang == "en") {
-        image(0, offset, "img/nl.png", "Nederlandse versie", `?page=${activePage}&lang=nl`);
-    } else {
-        image(0, offset, "img/uk.png", "English version", `?page=${activePage}&lang=en`);
-    }
     const page = pages[pageName];
     texts = language == "nl" ? page.texts_nl : page.texts_en;
     wrappingText(texts);
-    image(maxRow - 2, 2, "img/ball.webp", "Play ball", '', playBall);
+    image(maxRow - 2, 1, "img/ball.webp", "Play ball", '', playBall);
+
+    if (activeLang == "en") {
+        image(maxRow - 2, maxCol - 2, "img/nl.png", "Nederlandse versie", `?page=${activePage}&lang=nl`);
+    } else {
+        image(maxRow - 2, maxCol - 2, "img/uk.png", "English version", `?page=${activePage}&lang=en`);
+    }
 }

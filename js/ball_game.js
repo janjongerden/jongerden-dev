@@ -7,7 +7,7 @@ const ballSize = 26;
 const barOffset = 80;
 
 function initializeGame() {
-    clearSquare(maxRow - 2, 2);
+    clearSquare(maxRow - 2, 1);
     const ball = document.createElement("img");
     ball.id = "ball";
     ball.src = "img/ball.webp";
