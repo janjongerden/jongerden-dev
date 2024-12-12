@@ -1,3 +1,7 @@
+:root {
+    --block_size: 25px;
+}
+
 body {
     margin: 0;
     display: flex;
@@ -10,16 +14,16 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 25px);
-    grid-template-rows: repeat(auto-fit, 25px);
+    grid-template-columns: repeat(auto-fit, var(--block_size));
+    grid-template-rows: repeat(auto-fit, var(--block_size));
     justify-content: center;
     width: 100vw;
     height: 100vh;
 }
 
 .square {
-    width: 25px;
-    height: 25px;
+    width: var(--block_size);
+    height: var(--block_size);
     background-color: #555;
     border: 1px solid #444;
     display: flex;

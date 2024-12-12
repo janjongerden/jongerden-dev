@@ -54,7 +54,7 @@ async function wrappingText(lines) {
                         col = 1;
                         row++;
                     }
-                    await sleep(30);
+                    await sleep(20);
                     setCharacter(row, col, char, url);
                 }
             }
