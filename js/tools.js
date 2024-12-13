@@ -91,9 +91,10 @@ function clearSquare(row, col) {
 
 function drawPage(pageName, language) {
     let offset = 1;
+    const menuSpacing = maxCol < 20 ? 1 : 2
     for (const link of headerLinks) {
         word(0, offset, link, `?page=${link}&lang=${activeLang}`);
-        offset += link.length + 2;
+        offset += link.length + menuSpacing;
     }
     const page = pages[pageName];
     texts = language == "nl" ? page.texts_nl : page.texts_en;
