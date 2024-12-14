@@ -1,12 +1,13 @@
 const barWidth = 200;
 let ballX = 200;
-let ballY = 200;
+let ballY = window.innerHeight - 200;
 let ballGoingLeft = true;
 let ballGoingUp = true;
 const ballSize = 26;
 const barOffset = 80;
 
 function initializeGame() {
+    // remove the "start game" icon
     clearSquare(maxRow - 2, 1);
     const ball = document.createElement("img");
     ball.id = "ball";
