@@ -6,6 +6,9 @@ let ballGoingUp = true;
 const ballSize = 26;
 const barOffset = 80;
 let score = 10;
+const bar = document.createElement("canvas");
+let barDragging = false;
+let barDragOffset;
 
 function initializeGame() {
     // remove the "start game" icon
@@ -16,7 +19,6 @@ function initializeGame() {
     ball.alt = "The ball";
     document.body.appendChild(ball);
 
-    const bar = document.createElement("canvas");
     bar.id = "bar";
     bar.width = "500";
     bar.height = "200";
@@ -38,6 +40,22 @@ function incrementScore() {
     score += 10;
     word(maxRow - 1, 1, `score:${score}`)
 }
+
+bar.addEventListener('touchstart', (event) => {
+    barDragging = true;
+    barDragOffset = event.touches[0].clientX - bar.offsetLeft;
+});
+
+window.addEventListener('touchmove', (event) => {
+    if (barDragging) {
+        event.preventDefault(); // Prevent scrolling
+        bar.style.left = `${event.touches[0].clientX - barDragOffset}px`;
+    }
+});
+
+window.addEventListener('touchend', () => {
+    barDragging = false;
+});
 
 async function playBall() {
     initializeGame()
@@ -117,7 +135,9 @@ async function playBall() {
             }
         }
         await sleep(1);
-        barX = mouseX - barWidth/2
-        bar.style.left = `${barX}px`;
+        if (!barDragging) {
+            barX = mouseX - barWidth/2
+            bar.style.left = `${barX}px`;
+        }
     }
 }

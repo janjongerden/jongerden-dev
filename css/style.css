@@ -43,4 +43,5 @@ body {
 }
 #bar {
     position: absolute;
+    touch-action: none; /* Prevent default touch gestures like scrolling */
 }
