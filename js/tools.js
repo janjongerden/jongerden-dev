@@ -11,11 +11,15 @@ function sleep(ms) {
 }
 
 function setCharacter(row, col, char, link = "") {
+    if (char == ' ') {
+        // ignore spaces: it looks weird when the ball bounces off of them
+        return;
+    }
     const square = document.getElementById(`square-${row}-${col}`);
     if (square) {
         square.textContent = char;
         if (link) {
-            square.addEventListener('click', function() {
+            square.addEventListener("click", function() {
                     window.location.href = link;
             });
             square.classList.add("link");

@@ -56,9 +56,12 @@ async function playBall() {
             } else {
                 if (ballY % squareSize == 0) {
                     const col = Math.floor((ballX + ballSize / 2) / squareSize);
-                    const row = Math.floor(ballY / squareSize);
+                    const row = Math.floor((ballY - squareSize)/ squareSize);
                     const square = document.getElementById(`square-${row}-${col}`);
-                    console.log();
+                    if (square.textContent) {
+                        ballGoingUp = false;
+                        clearSquare(row, col);
+                    }
                 }
                 ballY -= 1;
             }
