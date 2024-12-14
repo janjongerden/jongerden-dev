@@ -9,6 +9,7 @@ let score = 10;
 const bar = document.createElement("canvas");
 let barDragging = false;
 let barDragOffset;
+const isTouchOnly = 'ontouchstart' in window && navigator.maxTouchPoints > 0 && !matchMedia('(pointer: fine)').matches;
 
 function initializeGame() {
     // remove the "start game" icon
@@ -135,7 +136,8 @@ async function playBall() {
             }
         }
         await sleep(1);
-        if (!barDragging) {
+        if (!isTouchOnly) {
+            // only listen to the mouse position for non-touch devices
             barX = mouseX - barWidth/2
             bar.style.left = `${barX}px`;
         }
