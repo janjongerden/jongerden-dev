@@ -5,6 +5,7 @@ let ballGoingLeft = true;
 let ballGoingUp = true;
 const ballSize = 26;
 const barOffset = 80;
+let score = 10;
 
 function initializeGame() {
     // remove the "start game" icon
@@ -33,6 +34,11 @@ function initializeGame() {
     ctx.fill();
 }
 
+function incrementScore() {
+    score += 10;
+    word(maxRow - 1, 1, `score:${score}`)
+}
+
 async function playBall() {
     initializeGame()
     while (true) {
@@ -42,31 +48,52 @@ async function playBall() {
             if (ballX == 0) {
                 ballGoingLeft = false;
             } else {
+                if (ballX % squareSize == 0) {
+                    const row = Math.floor((ballY + ballSize / 2) / squareSize);
+                    const col = Math.floor((ballX - squareSize)/ squareSize);
+                    const square = document.getElementById(`square-${row}-${col}`);
+                    if (square && square.textContent) {
+                        ballGoingLeft = false;
+                        clearSquare(row, col);
+                        incrementScore();
+                    }
+                }
                 ballX -= 1;
             }
-        } else {
+        } else { // going right
             if (ballX == window.innerWidth - ballSize) {
                 ballGoingLeft = true;
             } else {
+                if ((ballX + ballSize) % squareSize == 0) {
+                    const row = Math.floor((ballY + ballSize / 2) / squareSize);
+                    const col = Math.floor((ballX + ballSize)/ squareSize);
+                    const square = document.getElementById(`square-${row}-${col}`);
+                    if (square && square.textContent) {
+                        ballGoingLeft = true;
+                        clearSquare(row, col);
+                        incrementScore();
+                    }
+                }
                 ballX += 1;
             }
         }
         if (ballGoingUp) {
-            if (ballY == 0) {
+            if (ballY == squareSize) {
                 ballGoingUp = false;
             } else {
                 if (ballY % squareSize == 0) {
                     const col = Math.floor((ballX + ballSize / 2) / squareSize);
                     const row = Math.floor((ballY - squareSize)/ squareSize);
                     const square = document.getElementById(`square-${row}-${col}`);
-                    if (square.textContent) {
+                    if (square && square.textContent) {
                         ballGoingUp = false;
                         clearSquare(row, col);
+                        incrementScore();
                     }
                 }
                 ballY -= 1;
             }
-        } else {
+        } else { // going down
             if (ballY == window.innerHeight - ballSize - barOffset) {
                 if (ballX > barX && ballX < barX + barWidth) {
                     ballGoingUp = true;
@@ -76,6 +103,16 @@ async function playBall() {
             } else if (ballY == window.innerHeight) {
                     word(20, 5, "game over")
             } else {
+                if ((ballY + ballSize) % squareSize == 0) {
+                    const col = Math.floor((ballX + ballSize / 2) / squareSize);
+                    const row = Math.floor((ballY + ballSize)/ squareSize);
+                    const square = document.getElementById(`square-${row}-${col}`);
+                    if (square && square.textContent) {
+                        ballGoingUp = true;
+                        clearSquare(row, col);
+                        incrementScore();
+                    }
+                }
                 ballY += 1;
             }
         }
