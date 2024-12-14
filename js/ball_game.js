@@ -9,6 +9,7 @@ let score = 10;
 const bar = document.createElement("canvas");
 let barDragging = false;
 let barDragOffset;
+let barX = 20;
 const isTouchOnly = 'ontouchstart' in window && navigator.maxTouchPoints > 0 && !matchMedia('(pointer: fine)').matches;
 
 function initializeGame() {
@@ -23,7 +24,6 @@ function initializeGame() {
     bar.id = "bar";
     bar.width = "500";
     bar.height = "200";
-    let barX = 20;
     let barY = window.innerHeight - barOffset;
     bar.style.top = `${barY}px`;
     document.body.appendChild(bar);
@@ -50,7 +50,8 @@ bar.addEventListener('touchstart', (event) => {
 window.addEventListener('touchmove', (event) => {
     if (barDragging) {
         event.preventDefault(); // Prevent scrolling
-        bar.style.left = `${event.touches[0].clientX - barDragOffset}px`;
+        barX = event.touches[0].clientX - barDragOffset
+        bar.style.left = `${barX}px`;
     }
 });
 
