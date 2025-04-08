@@ -23,6 +23,7 @@ function setCharacter(row, col, char, link = "") {
                     window.location.href = link;
             });
             square.classList.add("link");
+            square.title = link;
         }
     }
 }
