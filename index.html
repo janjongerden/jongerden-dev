@@ -39,8 +39,8 @@
       "info": {
         "texts_nl": [
           "Jan Jongerden Software",
-          "KvK nr: 94089922",
-          "BTW nr: NL005063677B05",
+          "KvK nr: [94089922]",
+          "BTW nr: [NL005063677B05]",
           " ",
           "eigenschappen:",
           "-gebruikersgericht",
@@ -58,8 +58,8 @@
         ],
         "texts_en": [
           "Jan Jongerden Software",
-          "CoC no. 94089922",
-          "VAT no. NL005063677B05",
+          "CoC no. [94089922]",
+          "VAT no. [NL005063677B05]",
           " ",
           "I am:",
           "-user focused",
@@ -115,5 +115,20 @@
     drawPage(activePage, activeLang);
 
   </script>
+
+  <div id="toast" style="
+  position: fixed;
+  left: 50%;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+  ">
+  </div>
+
 </body>
 </html>

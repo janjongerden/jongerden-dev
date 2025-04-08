@@ -10,7 +10,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function setCharacter(row, col, char, link = "") {
+function setCharacter(row, col, char, link = "", clipboardText = "") {
     if (char == ' ') {
         // ignore spaces: it looks weird when the ball bounces off of them
         return;
@@ -18,14 +18,41 @@ function setCharacter(row, col, char, link = "") {
     const square = document.getElementById(`square-${row}-${col}`);
     if (square) {
         square.textContent = char;
-        if (link) {
-            square.addEventListener("click", function() {
-                    window.location.href = link;
+        if (clipboardText) {
+            square.addEventListener("click", async (event) => {
+                event.preventDefault();
+                const message = activeLang == 'nl' ? "gekopieerd!" : "copied!"
+                showToast(message, event.clientX, event.clientY);
             });
             square.classList.add("link");
-            square.title = link;
+            if (activeLang == "nl") {
+                square.title = `kopieer "${clipboardText}"`;
+            } else {
+                square.title = `copy "${clipboardText}" to your clipboard`;
+            }
+        }
+        if (link) {
+            square.addEventListener("click", function() {
+                window.location.href = link;
+            });
+            square.classList.add("link");
+            if (link.startsWith("http")) {
+                // only show the destination of the link for external (absolute) links
+                square.title = link;
+            }
         }
     }
+}
+
+function showToast(message, x, y) {
+    toast.style.opacity = '1';
+    toast.textContent = message;
+    toast.style.left = `${x}px`;
+    toast.style.top = `${y}px`;
+
+    setTimeout(() => {
+        toast.style.opacity = '0';
+    }, 1500);
 }
 
 function word(row, col, word, link = "") {
@@ -34,11 +61,23 @@ function word(row, col, word, link = "") {
     }
 }
 
+function updateCursor(col, row) {
+    col++;
+    if (col === maxCol - 1) {
+        col = 1;
+        row++;
+    }
+    return { col, row };
+}
+
 async function wrappingText(lines) {
     const startCol = 0;
     let row = 2;
     let readingUrl = false;
+    let readingCopyable = false;
     let url = "";
+    let clipboardText = "";
+
     for (const line of lines) {
         let col = startCol
         for (const char of line) {
@@ -49,18 +88,28 @@ async function wrappingText(lines) {
                     url += char;
                 }
             } else {
-                if (char == '{') {
-                    readingUrl = true;
-                } else if (char == '}') {
-                    url = "";
+                if (char == '[') {
+                    readingCopyable = true;
+                } else if (char == ']') {
+                    readingCopyable = false;
+                    ({ col, row } = updateCursor(col, row));
+                    setCharacter(row, col, ' ');
+                    ({ col, row } = updateCursor(col, row));
+                    setCharacter(row, col, '⎘', url, clipboardText);
+                    clipboardText = "";
                 } else {
-                    col++;
-                    if (col == maxCol - 1) {
-                        col = 1;
-                        row++;
+                    if (readingCopyable) {
+                        clipboardText += char;
                     }
-                    await sleep(20);
-                    setCharacter(row, col, char, url);
+                    if (char == '{') {
+                        readingUrl = true;
+                    } else if (char == '}') {
+                        url = "";
+                    } else {
+                        ({ col, row } = updateCursor(col, row));
+                        await sleep(20);
+                        setCharacter(row, col, char, url);
+                    }
                 }
             }
         }
