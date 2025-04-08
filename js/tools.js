@@ -21,7 +21,8 @@ function setCharacter(row, col, char, link = "", clipboardText = "") {
         if (clipboardText) {
             square.addEventListener("click", async (event) => {
                 event.preventDefault();
-                const message = activeLang == 'nl' ? "gekopieerd!" : "copied!"
+                await navigator.clipboard.writeText(clipboardText);
+                const message = activeLang == 'nl' ? "gekopieerd!" : "copied!";
                 showToast(message, event.clientX, event.clientY);
             });
             square.classList.add("link");
