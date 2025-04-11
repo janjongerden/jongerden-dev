@@ -110,7 +110,10 @@
     const urlParameters = new URLSearchParams(pageParams);
     const activePage = urlParameters.get('page') ?? 'home';
     const browserLanguage = navigator.language.startsWith("nl") ? "nl" : "en";
-    const activeLang = urlParameters.get('lang') ?? browserLanguage;
+    const storedLanguage = localStorage.getItem("language");
+    const activeLang = urlParameters.get('lang') ?? storedLanguage ?? browserLanguage;
+
+    localStorage.setItem("language", activeLang);
 
     drawPage(activePage, activeLang);
 
