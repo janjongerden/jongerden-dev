@@ -152,6 +152,7 @@ function drawPage(pageName, language) {
         offset += link.length + menuSpacing;
     }
     const page = pages[pageName];
+    document.title = `${pageName} - Jongerden Development`;
     texts = language == "nl" ? page.texts_nl : page.texts_en;
     wrappingText(texts);
     image(maxRow - 2, 1, "img/ball.webp", "Play ball", '', playBall);
