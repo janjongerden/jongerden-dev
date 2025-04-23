@@ -32,8 +32,7 @@ function setCharacter(row, col, char, link = "", clipboardText = "", noBounce = 
             } else {
                 square.title = `copy "${clipboardText}" to your clipboard`;
             }
-        }
-        if (link) {
+        } else if (link) {
             square.addEventListener("click", function() {
                 window.location.href = link;
             });
@@ -44,7 +43,7 @@ function setCharacter(row, col, char, link = "", clipboardText = "", noBounce = 
             }
         } else {
             square.classList.remove("link");
-         }
+        }
     }
 }
 
