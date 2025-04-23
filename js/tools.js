@@ -10,7 +10,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function setCharacter(row, col, char, link = "", clipboardText = "") {
+function setCharacter(row, col, char, link = "", clipboardText = "", noBounce = false) {
     if (char == ' ') {
         // ignore spaces: it looks weird when the ball bounces off of them
         return;
@@ -18,6 +18,7 @@ function setCharacter(row, col, char, link = "", clipboardText = "") {
     const square = document.getElementById(`square-${row}-${col}`);
     if (square) {
         square.textContent = char;
+        square.setAttribute("data-noBounce", noBounce);
         if (clipboardText) {
             square.addEventListener("click", async (event) => {
                 event.preventDefault();
@@ -41,7 +42,9 @@ function setCharacter(row, col, char, link = "", clipboardText = "") {
                 // only show the destination of the link for external (absolute) links
                 square.title = link;
             }
-        }
+        } else {
+            square.classList.remove("link");
+         }
     }
 }
 
@@ -56,9 +59,9 @@ function showToast(message, x, y) {
     }, 1500);
 }
 
-function word(row, col, word, link = "") {
+function word(row, col, word, link = "", noBounce = false) {
     for (let i = 0; i < word.length; i++) {
-        setCharacter(row, col + i, word.charAt(i), link);
+        setCharacter(row, col + i, word.charAt(i), link, "", noBounce);
     }
 }
 

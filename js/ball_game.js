@@ -39,7 +39,11 @@ function initializeGame() {
 
 function incrementScore() {
     score += 10;
-    word(maxRow - 1, 1, `score:${score}`)
+    word(maxRow - 1, 1, `score:${score}`, "", true)
+}
+
+function squareBounces(square) {
+    return square && square.textContent && square.getAttribute("data-noBounce") !== "true";
 }
 
 bar.addEventListener('touchstart', (event) => {
@@ -72,7 +76,7 @@ async function playBall() {
                     const row = Math.floor((ballY + ballSize / 2) / squareSize);
                     const col = Math.floor((ballX - squareSize)/ squareSize);
                     const square = document.getElementById(`square-${row}-${col}`);
-                    if (square && square.textContent) {
+                    if (squareBounces(square)) {
                         ballGoingLeft = false;
                         clearSquare(row, col);
                         incrementScore();
@@ -88,7 +92,7 @@ async function playBall() {
                     const row = Math.floor((ballY + ballSize / 2) / squareSize);
                     const col = Math.floor((ballX + ballSize)/ squareSize);
                     const square = document.getElementById(`square-${row}-${col}`);
-                    if (square && square.textContent) {
+                    if (squareBounces(square)) {
                         ballGoingLeft = true;
                         clearSquare(row, col);
                         incrementScore();
@@ -105,7 +109,7 @@ async function playBall() {
                     const col = Math.floor((ballX + ballSize / 2) / squareSize);
                     const row = Math.floor((ballY - squareSize)/ squareSize);
                     const square = document.getElementById(`square-${row}-${col}`);
-                    if (square && square.textContent) {
+                    if (squareBounces(square)) {
                         ballGoingUp = false;
                         clearSquare(row, col);
                         incrementScore();
@@ -121,13 +125,13 @@ async function playBall() {
                     ballY += 1;
                 }
             } else if (ballY == window.innerHeight) {
-                    word(20, 5, "game over")
+                word(20, 5, "game over")
             } else {
                 if ((ballY + ballSize) % squareSize == 0) {
                     const col = Math.floor((ballX + ballSize / 2) / squareSize);
                     const row = Math.floor((ballY + ballSize)/ squareSize);
                     const square = document.getElementById(`square-${row}-${col}`);
-                    if (square && square.textContent) {
+                    if (squareBounces(square)) {
                         ballGoingUp = true;
                         clearSquare(row, col);
                         incrementScore();
