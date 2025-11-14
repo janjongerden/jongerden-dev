@@ -34,11 +34,17 @@ body {
     font-size: 17px;
     font-weight: bold;
 }
-.link {
-    cursor: pointer;
+.link a {
     font-weight: bold;
     font-size: 20px;
     color: #7ee;
+    text-decoration: none;
+}
+.copy {
+    font-weight: bold;
+    font-size: 20px;
+    color: #7ee;
+    cursor: pointer;
 }
 #ball {
     position: absolute;

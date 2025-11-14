@@ -26,21 +26,15 @@ function setCharacter(row, col, char, link = "", clipboardText = "", noBounce = 
                 const message = activeLang == 'nl' ? "gekopieerd!" : "copied!";
                 showToast(message, event.clientX, event.clientY);
             });
-            square.classList.add("link");
+            square.classList.add("copy");
             if (activeLang == "nl") {
                 square.title = `kopieer "${clipboardText}"`;
             } else {
                 square.title = `copy "${clipboardText}" to your clipboard`;
             }
         } else if (link) {
-            square.addEventListener("click", function() {
-                window.location.href = link;
-            });
+            square.innerHTML = `<a href="${link}">${char}</a>`
             square.classList.add("link");
-            if (link.startsWith("http")) {
-                // only show the destination of the link for external (absolute) links
-                square.title = link;
-            }
         } else {
             square.classList.remove("link");
         }
